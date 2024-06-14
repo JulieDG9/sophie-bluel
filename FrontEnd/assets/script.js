@@ -1,6 +1,7 @@
 const apiUrl = "http://localhost:5678/api";
 
 const gallery = document.querySelector(".gallery");
+const filters = document.querySelector(".filters");
 
 function createImg(data) {
   data.forEach((index) => {
@@ -21,8 +22,27 @@ function createImg(data) {
   });
 }
 
+function createFilterBtn(filtre) {
+  const btnElement = document.createElement("button");
+  btnElement.textContent = filtre.name;
+  filters.appendChild(btnElement);
+  btnElement.addEventListener("click", () => {});
+}
+
 fetch(apiUrl + "/works")
   .then((response) => response.json())
   .then((data) => {
     createImg(data);
+  });
+
+fetch(apiUrl + "/categories")
+  .then((response) => response.json())
+  .then((data) => {
+    createFilterBtn({
+      id: 0,
+      name: "Tous",
+    });
+    data.forEach((filtre) => {
+      createFilterBtn(filtre);
+    });
   });
