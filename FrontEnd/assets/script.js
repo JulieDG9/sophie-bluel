@@ -3,8 +3,8 @@ const apiUrl = "http://localhost:5678/api";
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
 
-function createImg(data) {
-  data.forEach((index) => {
+function createImg(img) {
+  img.forEach((index) => {
     const figureElement = document.createElement("figure");
     const imgElement = document.createElement("img");
     const captionElement = document.createElement("figcaption");
@@ -26,23 +26,48 @@ function createFilterBtn(filtre) {
   const btnElement = document.createElement("button");
   btnElement.textContent = filtre.name;
   filters.appendChild(btnElement);
-  btnElement.addEventListener("click", () => {});
+  btnElement.addEventListener("click", () => {
+    filterGallery(filtre.id);
+
+    // btnElement.onclick = function () {
+    btnElement.style.backgroundColor = "#1d6154";
+    btnElement.style.color = "white";
+    //   };
+  });
+
+  btnElement.addEventListener("blur", () => {
+    filterGallery(filtre.id);
+
+    btnElement.style.backgroundColor = "";
+    btnElement.style.color = "";
+  });
+}
+
+function filterGallery(categoryId) {
+  const figures = document.querySelectorAll(".gallery figure");
+  figures.forEach((figure) => {
+    if (categoryId === 0 || figure.dataset.categoryId == categoryId) {
+      figure.style.display = "block";
+    } else {
+      figure.style.display = "none";
+    }
+  });
 }
 
 fetch(apiUrl + "/works")
   .then((response) => response.json())
-  .then((data) => {
-    createImg(data);
+  .then((img) => {
+    createImg(img);
   });
 
 fetch(apiUrl + "/categories")
   .then((response) => response.json())
-  .then((data) => {
+  .then((img) => {
     createFilterBtn({
       id: 0,
       name: "Tous",
     });
-    data.forEach((filtre) => {
+    img.forEach((filtre) => {
       createFilterBtn(filtre);
     });
   });

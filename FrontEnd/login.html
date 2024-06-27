@@ -11,16 +11,17 @@
       rel="stylesheet"
     />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="./assets/login.css" />
+    <script src="./assets/login.js" defer></script>
+    <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
-          <li>projets</li>
+          <li><a href="index.html">projets</a></li>
           <li>contact</li>
-          <li>login</li>
+          <li class="login-active">login</li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -36,9 +37,9 @@
           <input type="password" name="password" id="password" required />
 
           <input type="submit" value="Se connecter" />
-
-          <p>Mot de passe oublié</p>
         </form>
+        <p>Mot de passe oublié</p>
+        <p id="error-message"></p>
       </section>
     </main>
     <footer>
@@ -48,6 +49,5 @@
         </ul>
       </nav>
     </footer>
-    <script src="./assets/script.js"></script>
   </body>
 </html>
