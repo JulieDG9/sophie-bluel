@@ -1,7 +1,13 @@
 const apiUrl = "http://localhost:5678/api";
+const token = sessionStorage.getItem("token");
 
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
+const editionBar = document.getElementById("editionBar");
+const editBtn = document.getElementById("editBtn");
+const bodyContainer = document.querySelector("body");
+const logBtn = document.getElementById("logBtn");
+console.log(logBtn);
 
 function createImg(img) {
   img.forEach((index) => {
@@ -25,21 +31,15 @@ function createImg(img) {
 function createFilterBtn(filtre) {
   const btnElement = document.createElement("button");
   btnElement.textContent = filtre.name;
+  btnElement.classList.add("filters-btn");
   filters.appendChild(btnElement);
   btnElement.addEventListener("click", () => {
     filterGallery(filtre.id);
 
-    // btnElement.onclick = function () {
-    btnElement.style.backgroundColor = "#1d6154";
-    btnElement.style.color = "white";
-    //   };
-  });
-
-  btnElement.addEventListener("blur", () => {
-    filterGallery(filtre.id);
-
-    btnElement.style.backgroundColor = "";
-    btnElement.style.color = "";
+    document.querySelectorAll(".filters-btn").forEach((unclicked) => {
+      unclicked.classList.remove("btn-clicked");
+    });
+    btnElement.classList.add("btn-clicked");
   });
 }
 
@@ -59,15 +59,22 @@ fetch(apiUrl + "/works")
   .then((img) => {
     createImg(img);
   });
-
-fetch(apiUrl + "/categories")
-  .then((response) => response.json())
-  .then((img) => {
-    createFilterBtn({
-      id: 0,
-      name: "Tous",
+if (!token) {
+  fetch(apiUrl + "/categories")
+    .then((response) => response.json())
+    .then((img) => {
+      createFilterBtn({
+        id: 0,
+        name: "Tous",
+      });
+      img.forEach((filtre) => {
+        createFilterBtn(filtre);
+      });
+      editionBar.style.display = "none";
+      editBtn.style.display = "none";
+      bodyContainer.style.paddingTop = "0";
+      logBtn.textContent = "login";
     });
-    img.forEach((filtre) => {
-      createFilterBtn(filtre);
-    });
-  });
+} else {
+  logBtn.textContent = "logout";
+}

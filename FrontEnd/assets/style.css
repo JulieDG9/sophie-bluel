@@ -128,12 +128,42 @@ table {
   border-spacing: 0;
 }
 /** end reset css**/
+
+#editionBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex; /* none */
+  background-color: black;
+  color: white;
+  height: 59px;
+  width: 100%;
+  gap: 10px;
+}
+
+#editionBar i {
+  margin-left: 50%;
+  height: 59px;
+  display: flex;
+  align-items: center;
+}
+
+#editionBar p {
+  /* width: 100%; */
+  height: 59px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
 body {
   max-width: 1140px;
   margin: auto;
+  padding-top: 59px;
   font-family: "Work Sans";
   font-size: 14px;
 }
+
 header {
   display: flex;
   justify-content: space-between;
@@ -164,6 +194,7 @@ h2 {
   font-size: 30px;
   color: #1d6154;
 }
+
 nav ul {
   display: flex;
   align-items: center;
@@ -216,10 +247,24 @@ li:hover {
 #introduction p {
   margin-bottom: 0.5em;
 }
+
+.titleEdit {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
 #portfolio h2 {
   text-align: center;
-  margin-bottom: 1em;
-  margin-top: 5em;
+  /* margin-bottom: 1em; */
+  margin-top: 3em;
+  margin-left: 40%;
+}
+
+#editBtn {
+  display: flex;
+  gap: 5px;
+  margin-top: 7em;
 }
 
 .filters {
@@ -248,7 +293,8 @@ li:hover {
   text-align: center;
 }
 
-.filters button:active {
+.filters button:active,
+.filters button.btn-clicked {
   background-color: #1d6154;
   color: white;
   font-weight: 500;
@@ -338,10 +384,15 @@ footer nav ul {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #login label {
   margin: 2em 0 1em 0;
   color: #3d3d3d;
   font-weight: 700;
+}
+
+#error-message {
+  margin: 2em 0 0;
 }
 
 input[type="submit"] {

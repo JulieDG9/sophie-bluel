@@ -6,20 +6,17 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const email = document.getElementById("email").value;
-  console.log(email);
 
   const password = document.getElementById("password").value;
-  console.log(password);
 
   const errorMessage = document.getElementById("error-message");
-  console.log(errorMessage);
 
   const loginData = {
     email: email,
     password: password,
   };
 
-  fetch(apiUrl + "/login", {
+  fetch(apiUrl + "/users/login", {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -28,11 +25,18 @@ form.addEventListener("submit", (event) => {
   })
     .then((response) => {
       if (response.ok) {
-        return response.json;
+        return response.json();
       } else {
-        errorMessage.innerText =
-          "Votre identifiant ou votre mot de passe est invalide";
+        throw new Error("Votre email ou votre mot de passe est invalide");
       }
     })
-    .then((responseData) => {});
+    .then((responseData) => {
+      sessionStorage.setItem("token", responseData.token);
+      window.location.href = "index.html";
+    })
+    .catch((error) => {
+      errorMessage.innerText = error.message;
+      errorMessage.style.color = "red";
+      errorMessage.style.textDecoration = "none";
+    });
 });
