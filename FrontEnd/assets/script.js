@@ -7,7 +7,7 @@ const editionBar = document.getElementById("editionBar");
 const editBtn = document.getElementById("editBtn");
 const bodyContainer = document.querySelector("body");
 const logBtn = document.getElementById("logBtn");
-console.log(logBtn);
+const modalGallery = document.querySelector(".modalGallery");
 
 function createImg(img) {
   img.forEach((index) => {
@@ -78,3 +78,31 @@ if (!token) {
 } else {
   logBtn.textContent = "logout";
 }
+
+function createModalGallery(modalImg) {
+  modalImg.forEach((index) => {
+    const figureElement = document.createElement("figure");
+    const imgElement = document.createElement("img");
+    const iconElement = document.createElement("icon");
+    iconElement.className = "fa-solid fa-trash-can";
+
+    figureElement.appendChild(iconElement);
+
+    imgElement.src = index.imageUrl;
+    imgElement.width = 77;
+    imgElement.height = 102;
+    figureElement.classList.add("imgModal");
+
+    figureElement.dataset.id = index.id;
+
+    figureElement.appendChild(imgElement);
+
+    modalGallery.appendChild(figureElement);
+  });
+}
+
+fetch(apiUrl + "/works")
+  .then((response) => response.json())
+  .then((modalImg) => {
+    createModalGallery(modalImg);
+  });

@@ -17,8 +17,23 @@
     ></script>
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
-
   <body>
+    <div class="modalBg" id="modalOpen">
+      <div class="modalContainer">
+        <div class="iconsBar">
+          <i class="fa-solid fa-arrow-left"></i>
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <h3>Galerie Photo</h3>
+        <div class="modalGallery">
+        </div>
+        <div class="modalAddPhoto">
+        </div>
+        <hr></hr>
+        <button class="modalBtn">Ajouter une photo</button>
+        
+      </div>
+    </div>
     <div id="editionBar">
       <i class="fa-regular fa-pen-to-square"></i>
       <p>Mode édition</p>
@@ -61,7 +76,7 @@
       <section id="portfolio">
         <div class="titleEdit">
           <h2>Mes Projets</h2>
-          <div id="editBtn">
+          <div id="editBtn" href="#modalOpen">
             <i class="fa-regular fa-pen-to-square"></i>
             <p>modifier</p>
           </div>
