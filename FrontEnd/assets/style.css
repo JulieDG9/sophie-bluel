@@ -131,7 +131,7 @@ table {
 
 .modalBg {
   background-color: rgba(0, 0, 0, 0.3);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -139,17 +139,22 @@ table {
 }
 
 .modalContainer {
-  width: 600px;
-  height: 670px;
+  width: 630px;
+  height: auto;
   background-color: white;
   border-radius: 10px;
   position: relative;
-  top: 660px;
-  left: 250px;
+  top: 250px;
+  left: 50%; /* Centrer horizontalement */
+  transform: translateX(-50%);
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .iconsBar {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   font-size: 24px;
@@ -162,20 +167,6 @@ h3 {
   font-size: 26px;
   margin: 20px 0;
   line-height: 30px;
-}
-
-.modalContainer {
-  width: 630px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.iconsBar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
 }
 
 .modalGallery {
@@ -193,6 +184,7 @@ h3 {
 }
 
 .fa-trash-can {
+  /* icon poubelle */
   z-index: 90;
   padding: 5px;
   position: absolute;
@@ -201,6 +193,70 @@ h3 {
   background-color: black;
   color: white;
   font-size: 10px;
+}
+
+.imgAdd {
+  width: 100%;
+  height: 169px;
+  background-color: #e8f1f6;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.imgAdd i {
+  font-size: 68px;
+  color: #b9c5cc;
+  width: 68px;
+  height: 60px;
+}
+.imgAdd button {
+  width: 173px;
+  height: 36px;
+  border-radius: 20px;
+  padding: 10px 30px;
+  border: none;
+  background-color: #cbd6dc;
+  color: #306685;
+}
+.imgAdd p {
+  color: #3d3d3d;
+  font-size: 10px;
+}
+
+#addPhotoForm {
+  width: 420px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+#addPhotoForm input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  padding: 0 15px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#addPhotoForm label {
+  margin: 2em 0 1em 0;
+}
+
+.selectContainer {
+  width: 420px;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.selectContainer select {
+  width: 400px;
+  height: 50px;
+  font-size: 1.2em;
+
+  border: none;
 }
 
 .modalContainer hr {
@@ -225,28 +281,18 @@ h3 {
 }
 
 #editionBar {
-  position: absolute;
+  z-index: 90;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: black;
   color: white;
   height: 59px;
   width: 100%;
   gap: 10px;
-}
-
-#editionBar i {
-  margin-left: 50%;
-  height: 59px;
-  display: flex;
-  align-items: center;
-}
-
-#editionBar p {
-  height: 59px;
-  display: flex;
-  align-items: center;
 }
 
 body {
@@ -356,6 +402,7 @@ li:hover {
 }
 
 #editBtn {
+  cursor: pointer;
   display: flex;
   gap: 5px;
   margin-top: 7em;
@@ -410,6 +457,9 @@ li:hover {
   margin: auto;
 }
 #contact > * {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
 #contact h2 {
@@ -430,6 +480,7 @@ li:hover {
 }
 #contact label {
   margin: 2em 0 1em 0;
+  align-items: flex-start;
 }
 #contact textarea {
   border: none;

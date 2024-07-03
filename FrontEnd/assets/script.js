@@ -7,7 +7,14 @@ const editionBar = document.getElementById("editionBar");
 const editBtn = document.getElementById("editBtn");
 const bodyContainer = document.querySelector("body");
 const logBtn = document.getElementById("logBtn");
+const btnEdit = document.getElementById("editBtn");
 const modalGallery = document.querySelector(".modalGallery");
+const modal = document.getElementById("modal");
+const crossClosed = document.querySelector(".fa-xmark");
+const arrowLeft = document.querySelector(".fa-arrow-left");
+const modalAddPhoto = document.querySelector(".modalAddPhoto");
+
+console.log(modalAddPhoto);
 
 function createImg(img) {
   img.forEach((index) => {
@@ -58,6 +65,7 @@ fetch(apiUrl + "/works")
   .then((response) => response.json())
   .then((img) => {
     createImg(img);
+    modal.style.display = "none";
   });
 if (!token) {
   fetch(apiUrl + "/categories")
@@ -106,3 +114,23 @@ fetch(apiUrl + "/works")
   .then((modalImg) => {
     createModalGallery(modalImg);
   });
+
+function modalOpen() {
+  modal.style.display = "block";
+  arrowLeft.style.visibility = "hidden";
+  modalAddPhoto.style.display = "none";
+}
+
+btnEdit.addEventListener("click", () => {
+  modalOpen();
+});
+
+crossClosed.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+});

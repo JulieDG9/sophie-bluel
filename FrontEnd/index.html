@@ -18,7 +18,11 @@
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
-    <div class="modalBg" id="modalOpen">
+    <div id="editionBar">
+      <i class="fa-regular fa-pen-to-square"></i>
+      <p>Mode édition</p>
+    </div>
+    <div class="modalBg" id="modal">
       <div class="modalContainer">
         <div class="iconsBar">
           <i class="fa-solid fa-arrow-left"></i>
@@ -28,16 +32,32 @@
         <div class="modalGallery">
         </div>
         <div class="modalAddPhoto">
-        </div>
+          <div class="imgAdd">
+            <i class="fa-regular fa-image"></i>
+<button>+ Ajouter photo</button>
+<p>jpg, png : 4mo max</p>
+          </div>
+          <form id="addPhotoForm" action="#" method="post">
+            <label for="title">Titre</label>
+            <input type="text" name="title" id="title" />
+            <label for="category">Catégorie</label>
+            <div class="selectCategory">
+              <div class="selectContainer">
+                <select name="category" id="category" required>
+                  <option value="" disabled selected></option>
+                  <option value="categoryId1">id 1</option>
+                  <option value="categoryId2">id 2</option>
+                  <option value="categoryId3">id 3</option>
+                </select>
+              </div>
+            </div>
+         </div>
         <hr></hr>
         <button class="modalBtn">Ajouter une photo</button>
         
       </div>
     </div>
-    <div id="editionBar">
-      <i class="fa-regular fa-pen-to-square"></i>
-      <p>Mode édition</p>
-    </div>
+    
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
@@ -76,9 +96,9 @@
       <section id="portfolio">
         <div class="titleEdit">
           <h2>Mes Projets</h2>
-          <div id="editBtn" href="#modalOpen">
+          <div id="editBtn">
             <i class="fa-regular fa-pen-to-square"></i>
-            <p>modifier</p>
+            <span>modifier</span>
           </div>
         </div>
         <div class="filters"></div>
