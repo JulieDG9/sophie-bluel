@@ -213,6 +213,17 @@ h3 {
   width: 68px;
   height: 60px;
 }
+
+#addPhoto {
+  position: absolute;
+  top: 205px;
+  left: 249px;
+  width: 173px;
+  height: 36px;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .imgAdd button {
   width: 173px;
   height: 36px;
@@ -221,6 +232,7 @@ h3 {
   border: none;
   background-color: #cbd6dc;
   color: #306685;
+  cursor: pointer;
 }
 .imgAdd p {
   color: #3d3d3d;
@@ -255,7 +267,14 @@ h3 {
   width: 400px;
   height: 50px;
   font-size: 1.2em;
+  font-size: 14px;
+  font-family: "Work Sans";
+  padding-left: 10px;
+  border: none;
+}
 
+select:focus {
+  outline: none;
   border: none;
 }
 
@@ -278,6 +297,7 @@ h3 {
   width: 237px;
   text-align: center;
   margin: 20px 0;
+  cursor: pointer;
 }
 
 #editionBar {

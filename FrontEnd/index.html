@@ -28,14 +28,20 @@
           <i class="fa-solid fa-arrow-left"></i>
           <i class="fa-solid fa-xmark"></i>
         </div>
-        <h3>Galerie Photo</h3>
-        <div class="modalGallery">
-        </div>
+        <h3 class="modalTitle">Galerie Photo</h3>
+        <div class="modalGallery"></div>
         <div class="modalAddPhoto">
           <div class="imgAdd">
+            <input
+              type="file"
+              name="image"
+              id="addPhoto"
+              style="display: flex"
+            />
             <i class="fa-regular fa-image"></i>
-<button>+ Ajouter photo</button>
-<p>jpg, png : 4mo max</p>
+            <button class="btnAddPhoto">+ Ajouter photo</button>
+
+            <p>jpg, png : 4mo max</p>
           </div>
           <form id="addPhotoForm" action="#" method="post">
             <label for="title">Titre</label>
@@ -43,21 +49,15 @@
             <label for="category">Catégorie</label>
             <div class="selectCategory">
               <div class="selectContainer">
-                <select name="category" id="category" required>
-                  <option value="" disabled selected></option>
-                  <option value="categoryId1">id 1</option>
-                  <option value="categoryId2">id 2</option>
-                  <option value="categoryId3">id 3</option>
-                </select>
+                <select name="category" id="category" required></select>
               </div>
             </div>
-         </div>
-        <hr></hr>
+          </form>
+        </div>
+        <hr />
         <button class="modalBtn">Ajouter une photo</button>
-        
       </div>
     </div>
-    
     <header>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>

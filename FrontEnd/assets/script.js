@@ -13,8 +13,11 @@ const modal = document.getElementById("modal");
 const crossClosed = document.querySelector(".fa-xmark");
 const arrowLeft = document.querySelector(".fa-arrow-left");
 const modalAddPhoto = document.querySelector(".modalAddPhoto");
+const modalBtn = document.querySelector(".modalBtn");
 
-console.log(modalAddPhoto);
+const modalTitle = document.querySelector(".modalTitle");
+
+/* Création Galerie Photo sur page Accueil */
 
 function createImg(img) {
   img.forEach((index) => {
@@ -34,6 +37,8 @@ function createImg(img) {
     gallery.appendChild(figureElement);
   });
 }
+
+/* Création des boutons de filtres de la Galerie Photo (Accueil) */
 
 function createFilterBtn(filtre) {
   const btnElement = document.createElement("button");
@@ -87,6 +92,8 @@ if (!token) {
   logBtn.textContent = "logout";
 }
 
+/* Création Galerie Photo (modal) */
+
 function createModalGallery(modalImg) {
   modalImg.forEach((index) => {
     const figureElement = document.createElement("figure");
@@ -106,6 +113,39 @@ function createModalGallery(modalImg) {
     figureElement.appendChild(imgElement);
 
     modalGallery.appendChild(figureElement);
+
+    // iconElement.addEventListener("click", (event) => {
+    //   deleteWithAuth(figureElement.id);
+    // });
+
+    iconElement.addEventListener("click", () => {
+      const imageId = figureElement.dataset.id;
+      console.log(imageId);
+
+      deleteImg(imageId)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Erreur lors de la suppression");
+          }
+
+          figureElement.style.display = "none";
+        })
+        .catch((error) => {
+          alert("Une erreur s'est produite lors de la suppression de l'image.");
+          console.error("erreur:", error);
+        });
+    });
+  });
+}
+
+function deleteImg(id) {
+  const url = `${apiUrl}/works?imageId=${id}`;
+  return fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorisation: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
   });
 }
 
@@ -115,10 +155,15 @@ fetch(apiUrl + "/works")
     createModalGallery(modalImg);
   });
 
+/* Ouverture de la modale sur la section Galerie Photo */
+
 function modalOpen() {
   modal.style.display = "block";
   arrowLeft.style.visibility = "hidden";
   modalAddPhoto.style.display = "none";
+  modalGallery.style.display = "flex";
+  modalTitle.innerText = "Galerie Photo";
+  modalBtn.innerText = "Ajouter une photo";
 }
 
 btnEdit.addEventListener("click", () => {
@@ -134,3 +179,52 @@ window.addEventListener("click", (event) => {
     modal.style.display = "none";
   }
 });
+
+/* section Ajout Photo de la modale   */
+
+function modalAddPhotoView() {
+  arrowLeft.style.visibility = "visible";
+  modalGallery.style.display = "none";
+  modalAddPhoto.style.display = "block";
+  modalTitle.innerText = "Ajout Photo";
+  modalBtn.innerText = "Valider";
+}
+
+modalBtn.addEventListener("click", () => {
+  modalAddPhotoView();
+});
+
+arrowLeft.addEventListener("click", () => {
+  modalOpen();
+  modalGallery.style.display = "flex";
+  arrowLeft.style.display = "hidden";
+});
+
+/* Recupération de la liste de catégorie pour le form d'ajout photo (modal)   */
+
+let selectCategorie;
+const category = document.getElementById("category");
+
+fetch(apiUrl + "/categories")
+  .then((response) => response.json())
+  .then((data) => {
+    selectCategorie = data;
+
+    const textInputCategory = {
+      id: 0,
+      name: "",
+    };
+
+    selectCategorie.unshift(textInputCategory);
+
+    for (let i = 0; i < selectCategorie.length; i++) {
+      const categorieName = selectCategorie[i].name;
+
+      const optionCategorie = document.createElement("option");
+      optionCategorie.innerText = selectCategorie[i].name;
+      optionCategorie.value = selectCategorie[i].id;
+
+      category.appendChild(optionCategorie);
+      console.log(category);
+    }
+  });
