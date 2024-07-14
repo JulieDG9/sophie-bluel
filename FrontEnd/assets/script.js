@@ -14,8 +14,11 @@ const crossClosed = document.querySelector(".fa-xmark");
 const arrowLeft = document.querySelector(".fa-arrow-left");
 const modalAddPhoto = document.querySelector(".modalAddPhoto");
 const modalBtn = document.querySelector(".modalBtn");
-
+const modalBtnPhoto = document.querySelector(".modalBtnPhoto");
 const modalTitle = document.querySelector(".modalTitle");
+const modalForm = document.getElementById("addPhotoForm");
+const titleFileForm = document.getElementById("title");
+const category = document.getElementById("category");
 
 /* Création Galerie Photo sur page Accueil */
 
@@ -30,6 +33,7 @@ function createImg(img) {
     captionElement.textContent = index.title;
 
     figureElement.dataset.categoryId = index.categoryId;
+    figureElement.dataset.workId = index.id;
 
     figureElement.appendChild(imgElement);
     figureElement.appendChild(captionElement);
@@ -90,6 +94,11 @@ if (!token) {
     });
 } else {
   logBtn.textContent = "logout";
+  logBtn.classList.add("logOut");
+  document.querySelector(".logOut").addEventListener("click", () => {
+    sessionStorage.removeItem("token");
+    logBtn.classList.remove("logOut");
+  });
 }
 
 /* Création Galerie Photo (modal) */
@@ -114,10 +123,6 @@ function createModalGallery(modalImg) {
 
     modalGallery.appendChild(figureElement);
 
-    // iconElement.addEventListener("click", (event) => {
-    //   deleteWithAuth(figureElement.id);
-    // });
-
     iconElement.addEventListener("click", () => {
       const imageId = figureElement.dataset.id;
       console.log(imageId);
@@ -129,6 +134,7 @@ function createModalGallery(modalImg) {
           }
 
           figureElement.style.display = "none";
+          gallery.querySelector("[data-work-id]").style.display = "none";
         })
         .catch((error) => {
           alert("Une erreur s'est produite lors de la suppression de l'image.");
@@ -139,11 +145,11 @@ function createModalGallery(modalImg) {
 }
 
 function deleteImg(id) {
-  const url = `${apiUrl}/works?imageId=${id}`;
+  const url = `${apiUrl}/works/${id}`;
   return fetch(url, {
     method: "DELETE",
     headers: {
-      Authorisation: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   });
@@ -163,7 +169,8 @@ function modalOpen() {
   modalAddPhoto.style.display = "none";
   modalGallery.style.display = "flex";
   modalTitle.innerText = "Galerie Photo";
-  modalBtn.innerText = "Ajouter une photo";
+  modalBtn.style.display = "block";
+  modalBtnPhoto.style.display = "none";
 }
 
 btnEdit.addEventListener("click", () => {
@@ -172,12 +179,14 @@ btnEdit.addEventListener("click", () => {
 
 crossClosed.addEventListener("click", () => {
   modal.style.display = "none";
+  // clearForm();
 });
 
 window.addEventListener("click", (event) => {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+  // clearForm();
 });
 
 /* section Ajout Photo de la modale   */
@@ -185,9 +194,10 @@ window.addEventListener("click", (event) => {
 function modalAddPhotoView() {
   arrowLeft.style.visibility = "visible";
   modalGallery.style.display = "none";
-  modalAddPhoto.style.display = "block";
+  modalAddPhoto.style.display = "flex";
   modalTitle.innerText = "Ajout Photo";
-  modalBtn.innerText = "Valider";
+  modalBtn.style.display = "none";
+  modalBtnPhoto.style.display = "block";
 }
 
 modalBtn.addEventListener("click", () => {
@@ -198,12 +208,49 @@ arrowLeft.addEventListener("click", () => {
   modalOpen();
   modalGallery.style.display = "flex";
   arrowLeft.style.display = "hidden";
+  // clearForm();
+});
+
+const inputFile = document.getElementById("addPhoto");
+const imgAddFile = document.querySelector(".imgAddFile");
+inputFile.addEventListener("change", () => {
+  const photo = inputFile.files;
+  if (photo) {
+    const fileReader = new FileReader();
+    const previewImg = document.getElementById("previewImg");
+    fileReader.onload = (event) => {
+      previewImg.setAttribute("src", event.target.result);
+    };
+    fileReader.readAsDataURL(photo[0]);
+    imgAddFile.style.display = "none";
+    previewImg.style.display = "block";
+    isFormValid();
+  }
+});
+
+function isFormValid() {
+  if (
+    inputFile.files.length > 0 &&
+    titleFileForm.value !== "" &&
+    category.selectedIndex !== 0
+  ) {
+    modalBtnPhoto.classList.add("modalBtnActive");
+  } else {
+    modalBtnPhoto.classList.remove("modalBtnActive");
+  }
+}
+
+titleFileForm.addEventListener("input", isFormValid);
+category.addEventListener("change", isFormValid);
+
+const btnAddPhoto = document.querySelector(".btnAddPhoto");
+btnAddPhoto.addEventListener("click", () => {
+  previewImg.style.display = "flex";
 });
 
 /* Recupération de la liste de catégorie pour le form d'ajout photo (modal)   */
 
 let selectCategorie;
-const category = document.getElementById("category");
 
 fetch(apiUrl + "/categories")
   .then((response) => response.json())
@@ -225,6 +272,5 @@ fetch(apiUrl + "/categories")
       optionCategorie.value = selectCategorie[i].id;
 
       category.appendChild(optionCategorie);
-      console.log(category);
     }
   });

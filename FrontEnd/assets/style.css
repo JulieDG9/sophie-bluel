@@ -179,6 +179,13 @@ h3 {
   gap: 25px 4px;
 }
 
+.modalAddPhoto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .imgModal {
   position: relative;
 }
@@ -196,6 +203,23 @@ h3 {
 }
 
 .imgAdd {
+  width: 420px;
+  height: 100%;
+  background-color: #e8f1f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#previewImg {
+  width: 30%;
+  height: 30%;
+  display: none;
+  /* overflow: hidden; */
+}
+
+.imgAddFile {
   width: 100%;
   height: 169px;
   background-color: #e8f1f6;
@@ -207,7 +231,7 @@ h3 {
   gap: 20px;
 }
 
-.imgAdd i {
+.imgAddFile i {
   font-size: 68px;
   color: #b9c5cc;
   width: 68px;
@@ -215,6 +239,7 @@ h3 {
 }
 
 #addPhoto {
+  display: flex;
   position: absolute;
   top: 205px;
   left: 249px;
@@ -224,7 +249,7 @@ h3 {
   cursor: pointer;
 }
 
-.imgAdd button {
+.imgAddFile button {
   width: 173px;
   height: 36px;
   border-radius: 20px;
@@ -234,7 +259,7 @@ h3 {
   color: #306685;
   cursor: pointer;
 }
-.imgAdd p {
+.imgAddFile p {
   color: #3d3d3d;
   font-size: 10px;
 }
@@ -248,7 +273,9 @@ h3 {
 
 #addPhotoForm input {
   height: 50px;
-  font-size: 1.2em;
+  /* font-size: 1.2em; */
+  font-size: 14px;
+  font-family: "Work Sans";
   border: none;
   padding: 0 15px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -266,7 +293,7 @@ h3 {
 .selectContainer select {
   width: 400px;
   height: 50px;
-  font-size: 1.2em;
+  /* font-size: 1.2em; */
   font-size: 14px;
   font-family: "Work Sans";
   padding-left: 10px;
@@ -283,14 +310,13 @@ select:focus {
   color: #b3b3b3;
   margin: 35px 0 20px;
 }
-
-.modalBtn {
+.modalBtn,
+.modalBtnPhoto {
   font-family: "Syne";
   font-size: 14px;
-  background-color: #1d6154;
   color: white;
   border-radius: 60px;
-  border: 1px solid #1d6154;
+  border: none;
   height: 36px;
   margin: 5px;
   padding: 0 10px;
@@ -298,6 +324,20 @@ select:focus {
   text-align: center;
   margin: 20px 0;
   cursor: pointer;
+}
+.modalBtn {
+  background-color: #1d6154;
+}
+
+.modalBtnPhoto {
+  background-color: #a7a7a7;
+  display: none;
+  cursor: not-allowed;
+}
+
+.modalBtnPhoto.modalBtnActive {
+  cursor: pointer;
+  background-color: #1d6154;
 }
 
 #editionBar {

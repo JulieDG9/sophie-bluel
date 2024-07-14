@@ -32,16 +32,13 @@
         <div class="modalGallery"></div>
         <div class="modalAddPhoto">
           <div class="imgAdd">
-            <input
-              type="file"
-              name="image"
-              id="addPhoto"
-              style="display: flex"
-            />
-            <i class="fa-regular fa-image"></i>
-            <button class="btnAddPhoto">+ Ajouter photo</button>
-
-            <p>jpg, png : 4mo max</p>
+            <img src="#" alt="Image ajoutée" id="previewImg" />
+            <div class="imgAddFile">
+              <input type="file" name="image" id="addPhoto" />
+              <i class="fa-regular fa-image"></i>
+              <button class="btnAddPhoto">+ Ajouter photo</button>
+              <p>jpg, png : 4mo max</p>
+            </div>
           </div>
           <form id="addPhotoForm" action="#" method="post">
             <label for="title">Titre</label>
@@ -56,6 +53,7 @@
         </div>
         <hr />
         <button class="modalBtn">Ajouter une photo</button>
+        <button class="modalBtnPhoto" disabled>Valider</button>
       </div>
     </div>
     <header>
