@@ -175,8 +175,8 @@ h3 {
   margin: 20px 0 40px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 25px 4px;
+  /* justify-content: space-between; */
+  gap: 25px 8px;
 }
 
 .modalAddPhoto {
