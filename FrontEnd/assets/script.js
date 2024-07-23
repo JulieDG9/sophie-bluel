@@ -131,9 +131,16 @@ function createModalGallery(modalImg) {
           if (!response.ok) {
             throw new Error("Erreur lors de la suppression");
           }
-
+          // Suppression de l'élément dans la modal
           figureElement.style.display = "none";
-          gallery.querySelector("[data-work-id]").style.display = "none";
+
+          // Suppression de l'élément correspondant dans la galérie principale
+          const galleryItem = gallery.querySelector(
+            `[data-work-id="${imageId}"]`
+          );
+          if (galleryItem) {
+            galleryItem.style.display = "none";
+          }
         })
         .catch((error) => {
           alert("Une erreur s'est produite lors de la suppression de l'image.");
