@@ -144,7 +144,7 @@ table {
   background-color: white;
   border-radius: 10px;
   position: relative;
-  top: 250px;
+  top: 150px;
   left: 50%; /* Centrer horizontalement */
   transform: translateX(-50%);
   padding: 20px;
