@@ -103,6 +103,7 @@ if (!token) {
 
 /* Création Galerie Photo (modal) */
 function createModalGallery(modalImg) {
+  modalGallery.innerHTML = "";
   modalImg.forEach((index) => {
     const figureElement = document.createElement("figure");
     const imgElement = document.createElement("img");
@@ -157,6 +158,7 @@ fetch(apiUrl + "/works")
   .then((response) => response.json())
   .then((modalImg) => {
     createModalGallery(modalImg);
+    updateGallery();
   });
 
 /* Ouverture de la modale sur la section Galerie Photo */
@@ -186,10 +188,6 @@ window.addEventListener("click", (event) => {
     clearForm();
   }
 });
-
-// modalBg.addEventListener("click", () => {
-//   clearForm();
-// });
 
 /* section Ajout Photo de la modale   */
 
@@ -309,7 +307,6 @@ modalBtnPhoto.addEventListener("click", async (event) => {
   })
     .then((response) => {
       if (response.ok) {
-        alert("Votre formulaire a été envoyé avec succès");
         return response.json();
       } else if (response.status === 400) {
         alert("Veuillez vérifier que tous les champs sont remplis");
@@ -320,8 +317,9 @@ modalBtnPhoto.addEventListener("click", async (event) => {
       }
     })
 
-    .then(() => {
-      createProject(project);
+    .then((work) => {
+      createWork(work);
+      updateGallery();
     })
 
     .catch((error) => {
@@ -333,30 +331,37 @@ modalBtnPhoto.addEventListener("click", async (event) => {
 
 let state = {};
 // Ajout de nouveau work
-function createProject(project) {
-  console.log(project);
+function createWork(work) {
+  console.log(work);
   const figure = document.createElement("figure");
   const image = document.createElement("img");
   const figCaption = document.createElement("figcaption");
 
-  image.src = project.imageUrl;
-  figCaption.innerText = project.title;
+  image.src = work.imageUrl;
+  figCaption.innerText = work.title;
   // Ajouter les éléments au DOM
   figure.appendChild(image);
   figure.appendChild(figCaption);
   gallery.appendChild(figure);
 
-  state[project.id] = { figure };
+  state[work.id] = { figure };
 }
 
 // Fonction pour mettre à jour la galerie
 function updateGallery() {
+  gallery.innerHTML = "";
+  modalGallery.innerHTML = "";
+
   fetch(apiUrl + "/works")
     .then((response) => response.json())
     .then((data) => {
+      createImg(data);
+      // createWork(work);
       createModalGallery(data);
     })
     .catch((error) =>
       console.error("Erreur lors de la mise à jour de la galerie:", error)
     );
+
+  modal.style.display = "none";
 }
