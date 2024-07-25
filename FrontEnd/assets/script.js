@@ -27,17 +27,13 @@ function createImg(img) {
     const figureElement = document.createElement("figure");
     const imgElement = document.createElement("img");
     const captionElement = document.createElement("figcaption");
-
     imgElement.src = index.imageUrl;
     imgElement.alt = index.title;
     captionElement.textContent = index.title;
-
     figureElement.dataset.categoryId = index.categoryId;
     figureElement.dataset.workId = index.id;
-
     figureElement.appendChild(imgElement);
     figureElement.appendChild(captionElement);
-
     gallery.appendChild(figureElement);
   });
 }
@@ -50,7 +46,6 @@ function createFilterBtn(filtre) {
   filters.appendChild(btnElement);
   btnElement.addEventListener("click", () => {
     filterGallery(filtre.id);
-
     document.querySelectorAll(".filters-btn").forEach((unclicked) => {
       unclicked.classList.remove("btn-clicked");
     });
@@ -109,20 +104,14 @@ function createModalGallery(modalImg) {
     const imgElement = document.createElement("img");
     const iconElement = document.createElement("icon");
     iconElement.className = "fa-solid fa-trash-can";
-
     figureElement.appendChild(iconElement);
-
     imgElement.src = index.imageUrl;
     imgElement.width = 77;
     imgElement.height = 102;
     figureElement.classList.add("imgModal");
-
     figureElement.dataset.id = index.id;
-
     figureElement.appendChild(imgElement);
-
     modalGallery.appendChild(figureElement);
-
     iconElement.addEventListener("click", () => {
       const imageId = figureElement.dataset.id;
 
@@ -169,7 +158,6 @@ fetch(apiUrl + "/works")
   });
 
 /* Ouverture de la modale sur la section Galerie Photo */
-
 function modalOpen() {
   modal.style.display = "block";
   arrowLeft.style.visibility = "hidden";
@@ -197,7 +185,6 @@ window.addEventListener("click", (event) => {
 });
 
 /* section Ajout Photo de la modale   */
-
 function modalAddPhotoView() {
   arrowLeft.style.visibility = "visible";
   modalGallery.style.display = "none";
@@ -269,28 +256,21 @@ function clearForm() {
 }
 
 /* Recupération de la liste de catégorie pour le form d'ajout photo (modal)   */
-
 let selectCategorie;
 
 fetch(apiUrl + "/categories")
   .then((response) => response.json())
   .then((data) => {
     selectCategorie = data;
-
     const textInputCategory = {
       id: 0,
       name: "",
     };
-
     selectCategorie.unshift(textInputCategory);
-
     for (let i = 0; i < selectCategorie.length; i++) {
-      const categorieName = selectCategorie[i].name;
-
       const optionCategorie = document.createElement("option");
       optionCategorie.innerText = selectCategorie[i].name;
       optionCategorie.value = selectCategorie[i].id;
-
       category.appendChild(optionCategorie);
     }
   });
@@ -298,7 +278,6 @@ fetch(apiUrl + "/categories")
 // Fonction d'ajout de work
 modalBtnPhoto.addEventListener("click", async (event) => {
   event.preventDefault();
-
   const formData = new FormData();
   formData.append("image", inputFile.files[0]);
   formData.append("title", titleFileForm.value);
@@ -323,16 +302,13 @@ modalBtnPhoto.addEventListener("click", async (event) => {
         alert("Une erreur s'est produite, veuillez réessayer");
       }
     })
-
     .then((work) => {
       createWork(work);
       updateGallery();
     })
-
     .catch((error) => {
       console.error("erreur:", error);
     });
-
   clearForm();
 });
 
@@ -343,14 +319,12 @@ function createWork(work) {
   const figure = document.createElement("figure");
   const image = document.createElement("img");
   const figCaption = document.createElement("figcaption");
-
   image.src = work.imageUrl;
   figCaption.innerText = work.title;
-  // Ajouter les éléments au DOM
+  // Ajout des éléments au DOM
   figure.appendChild(image);
   figure.appendChild(figCaption);
   gallery.appendChild(figure);
-
   state[work.id] = { figure };
 }
 
@@ -363,7 +337,6 @@ function updateGallery() {
     .then((response) => response.json())
     .then((data) => {
       createImg(data);
-      // createWork(work);
       createModalGallery(data);
     })
     .catch((error) =>

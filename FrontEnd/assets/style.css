@@ -175,7 +175,6 @@ h3 {
   margin: 20px 0 40px;
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
   gap: 25px 8px;
 }
 
@@ -216,7 +215,6 @@ h3 {
   width: 30%;
   height: 30%;
   display: none;
-  /* overflow: hidden; */
 }
 
 .imgAddFile {
@@ -273,7 +271,6 @@ h3 {
 
 #addPhotoForm input {
   height: 50px;
-  /* font-size: 1.2em; */
   font-size: 14px;
   font-family: "Work Sans";
   border: none;
@@ -293,7 +290,6 @@ h3 {
 .selectContainer select {
   width: 400px;
   height: 50px;
-  /* font-size: 1.2em; */
   font-size: 14px;
   font-family: "Work Sans";
   padding-left: 10px;
