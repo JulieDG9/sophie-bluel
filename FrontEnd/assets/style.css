@@ -262,6 +262,11 @@ h3 {
   font-size: 10px;
 }
 
+#errorMessageAddPhoto {
+  margin-top: 5px;
+  color: red;
+}
+
 #addPhotoForm {
   width: 420px;
   text-align: left;

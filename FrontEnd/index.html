@@ -34,12 +34,19 @@
           <div class="imgAdd">
             <img src="#" alt="Image ajoutée" id="previewImg" />
             <div class="imgAddFile">
-              <input type="file" name="image" id="addPhoto" />
+              <input
+                type="file"
+                name="image"
+                id="addPhoto"
+                accept=".png, .jpg, .jpeg"
+              />
               <i class="fa-regular fa-image"></i>
               <button class="btnAddPhoto">+ Ajouter photo</button>
               <p>jpg, png : 4mo max</p>
             </div>
           </div>
+          <p id="errorMessageAddPhoto"></p>
+          </p>
           <form id="addPhotoForm" action="#" method="post">
             <label for="title">Titre</label>
             <input type="text" name="title" id="title" />
