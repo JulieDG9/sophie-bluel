@@ -21,15 +21,15 @@ const modalForm = document.getElementById("addPhotoForm");
 const btnAddPhoto = document.querySelector(".btnAddPhoto");
 const titleFileForm = document.getElementById("title");
 const category = document.getElementById("category");
-const previewImg = document.getElementById("previewImg"); // déplacement de la constante
-const inputFile = document.getElementById("addPhoto"); // déplacement de la constante
-const imgAddFile = document.querySelector(".imgAddFile"); // déplacement de la constante
+const previewImg = document.getElementById("previewImg");
+const inputFile = document.getElementById("addPhoto");
+const imgAddFile = document.querySelector(".imgAddFile");
 
-// Variables pour stocker les données   // AJOUT
+// Variables pour stocker les données
 const worksCache = {};
 const catCache = {};
 
-// Fonction pour récupérér les works    // AJOUT
+// Fonction pour récupérér les works
 
 async function fetchData(endpoint, cache) {
   if (!cache[endpoint]) {
@@ -97,15 +97,13 @@ function initialize() {
       event.preventDefault();
       sessionStorage.removeItem("token");
       logBtn.classList.remove("logOut");
-      window.location.reload(); // AJOUT
+      window.location.reload();
     });
   }
 }
 
 /* Création Galerie Photo sur page Accueil */
 function createImg(work) {
-  // gallery.innerHTML = ""; //  AJOUT
-  // works.forEach((index) => {
   const figureElement = document.createElement("figure");
   const imgElement = document.createElement("img");
   const captionElement = document.createElement("figcaption");
@@ -120,15 +118,11 @@ function createImg(work) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // event.stopPropagation();
-  // event.preventDefault();
   initialize();
-  // modal.style.display = "none";
 });
 
 /* Création des boutons de filtres de la Galerie Photo */
 function createFilterBtn(filtre) {
-  // filters.innerHTML = ""; // AJOUT
   const btnElement = document.createElement("button");
   btnElement.textContent = filtre.name;
   btnElement.classList.add("filters-btn");
@@ -181,20 +175,14 @@ function modalOpen() {
 }
 
 crossClosed.addEventListener("click", () => {
-  // event.stopPropagation();
-  // event.preventDefault();
   console.log("cross clicked");
   modal.style.display = "none";
   clearForm();
 });
 
 window.addEventListener("click", (event) => {
-  // event.stopPropagation();
-  // event.preventDefault();
   if (modal.style.display === "block") {
     if (event.target === modalBg) {
-      // if (!modal.contains(event.target)) {
-      // } && event.target == modal))
       modal.style.display = "none";
       clearForm();
       console.log("modal closed");
@@ -204,7 +192,6 @@ window.addEventListener("click", (event) => {
 
 /* Création Galerie Photo (modal) */
 function createModalGallery(work) {
-  // works.forEach((index) => {
   const figureElement = document.createElement("figure");
   const imgElement = document.createElement("img");
   const iconElement = document.createElement("icon");
@@ -217,7 +204,6 @@ function createModalGallery(work) {
   figureElement.dataset.id = work.id;
   figureElement.appendChild(imgElement);
   modalGallery.appendChild(figureElement);
-  // iconElement.addEventListener("click", () => {
   iconElement.addEventListener("click", async (event) => {
     event.stopPropagation();
     event.preventDefault();
@@ -229,11 +215,6 @@ function createModalGallery(work) {
         throw new Error("Erreur lors de la suppression");
       }
 
-      // deleteImg(imageId)
-      //   .then((response) => {
-      //     if (!response.ok) {
-      //       throw new Error("Erreur lors de la suppression");
-      //     }
       // Suppression de l'élément dans la modal
       figureElement.remove();
 
@@ -243,8 +224,6 @@ function createModalGallery(work) {
         galleryItem.remove();
       }
     } catch (error) {
-      // })
-      // .catch((error) => {
       alert("Une erreur s'est produite lors de la suppression de l'image.");
       console.error("erreur:", error);
     }
@@ -269,9 +248,7 @@ function deleteImg(id) {
 
 /* section Ajout Photo de la modale   */
 
-modalBtn.addEventListener("click", (event) => {
-  // event.stopPropagation();
-  // event.preventDefault();
+modalBtn.addEventListener("click", () => {
   modalAddPhotoView();
 });
 
@@ -312,13 +289,11 @@ inputFile.addEventListener("change", (event) => {
     if (!validTypes.includes(fileType)) {
       errorMessageAddPhoto.textContent =
         "Seuls les fichiers PNG et JPG sont autorisés.";
-      // inputFile.value = "";
       imgAddFile.style.display = "flex";
       previewImg.style.display = "none";
     } else if (fileSize > maxFileSize) {
       errorMessageAddPhoto.textContent =
         "La taille du fichier ne doit pas dépasser 4 Mo.";
-      // inputFile.value = "";
       imgAddFile.style.display = "flex";
       previewImg.style.display = "none";
     } else {
@@ -389,8 +364,6 @@ fetchCategories().then((data) => {
 
 // Fonction d'ajout de work
 modalBtnPhoto.addEventListener("click", () => {
-  // event.stopPropagation();
-  // event.preventDefault();
   const formData = new FormData();
   formData.append("image", inputFile.files[0]);
   formData.append("title", titleFileForm.value);
@@ -440,22 +413,3 @@ function createWork(work) {
   gallery.appendChild(figure);
   state[work.id] = { figure };
 }
-
-// // Fonction pour mettre à jour la galerie
-// function updateGallery(event) {
-//   event.stopPropagation();
-//   gallery.innerHTML = "";
-//   modalGallery.innerHTML = "";
-
-//   fetch(apiUrl + "/works")
-//     .then((response) => response.json())
-//     .then((work) => {
-//       createImg(work);
-//       createModalGallery(work);
-//     })
-//     .catch((error) =>
-//       console.error("Erreur lors de la mise à jour de la galerie:", error)
-//     );
-
-//   modal.style.display = "none";
-// }
