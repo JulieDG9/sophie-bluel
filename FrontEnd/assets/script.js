@@ -84,6 +84,11 @@ function initialize() {
         }
       });
 
+      const allFilterBtn = document.querySelector(".filters-btn");
+      if (allFilterBtn) {
+        allFilterBtn.classList.add("btn-clicked");
+      }
+
       editionBar.style.display = "none";
       editBtn.style.display = "none";
       bodyContainer.style.paddingTop = "0";
@@ -230,11 +235,6 @@ function createModalGallery(work) {
   });
 }
 
-//         });
-//     });
-//   });
-// }
-
 function deleteImg(id) {
   const url = `${apiUrl}/works/${id}`;
   return fetch(url, {
@@ -269,18 +269,15 @@ arrowLeft.addEventListener("click", () => {
 });
 
 // Affichage de l'image chargée dans le formulaire
-btnAddPhoto.addEventListener("click", (event) => {
-  event.stopPropagation();
-  event.preventDefault();
+btnAddPhoto.addEventListener("click", () => {
   previewImg.style.display = "flex";
 });
 
-inputFile.addEventListener("change", (event) => {
-  event.stopPropagation();
-  event.preventDefault();
+inputFile.addEventListener("change", () => {
   const errorMessageAddPhoto = document.getElementById("errorMessageAddPhoto");
   const photo = inputFile.files[0];
   errorMessageAddPhoto.textContent = "";
+  fileError = false;
   if (photo) {
     const fileType = photo.type;
     const fileSize = photo.size;
@@ -294,8 +291,10 @@ inputFile.addEventListener("change", (event) => {
     } else if (fileSize > maxFileSize) {
       errorMessageAddPhoto.textContent =
         "La taille du fichier ne doit pas dépasser 4 Mo.";
+      errorMessageAddPhoto.style.display = "block";
       imgAddFile.style.display = "flex";
       previewImg.style.display = "none";
+      fileError = true;
     } else {
       const fileReader = new FileReader();
       fileReader.onload = (event) => {
@@ -310,15 +309,11 @@ inputFile.addEventListener("change", (event) => {
 });
 
 // Écouter les changements sur les éléments de formulaire
-titleFileForm.addEventListener("input", (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  isFormValid(event);
+titleFileForm.addEventListener("input", () => {
+  isFormValid();
 });
-category.addEventListener("change", (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  isFormValid(event);
+category.addEventListener("change", () => {
+  isFormValid();
 });
 
 // Fonction pour vérifier si tous les champs du formulaire sont remplis
@@ -326,7 +321,8 @@ function isFormValid() {
   if (
     inputFile.files.length > 0 &&
     titleFileForm.value !== "" &&
-    category.selectedIndex !== 0
+    category.selectedIndex !== 0 &&
+    !fileError
   ) {
     modalBtnPhoto.classList.add("modalBtnActive");
     modalBtnPhoto.disabled = false;
@@ -342,6 +338,7 @@ function clearForm() {
   previewImg.style.display = "none";
   titleFileForm.value = "";
   category.selectedIndex = 0;
+  errorMessageAddPhoto.style.display = "none";
 }
 
 /* Recupération de la liste de catégorie pour le form d'ajout photo (modal)   */
