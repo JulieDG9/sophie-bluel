@@ -58,6 +58,8 @@ async function fetchCategories() {
 
 function initialize() {
   modal.style.display = "none";
+  gallery.innerHTML = "";
+  modalGallery.innerHTML = "";
 
   fetchWorks()
     .then((works) => {
@@ -117,9 +119,9 @@ function createImg(work) {
   gallery.appendChild(figureElement);
 }
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  event.stopPropagation();
-  event.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  // event.stopPropagation();
+  // event.preventDefault();
   initialize();
   // modal.style.display = "none";
 });
@@ -201,57 +203,51 @@ window.addEventListener("click", (event) => {
 });
 
 /* Création Galerie Photo (modal) */
-function createModalGallery(works) {
-  //modif modalImg en works
-  // modalGallery.innerHTML = "";
-  works.forEach((index) => {
-    //modif modalImg en works
-    const figureElement = document.createElement("figure");
-    const imgElement = document.createElement("img");
-    const iconElement = document.createElement("icon");
-    iconElement.className = "fa-solid fa-trash-can";
-    figureElement.appendChild(iconElement);
-    imgElement.src = index.imageUrl;
-    imgElement.width = 77;
-    imgElement.height = 102;
-    figureElement.classList.add("imgModal");
-    figureElement.dataset.id = index.id;
-    figureElement.appendChild(imgElement);
-    modalGallery.appendChild(figureElement);
-    // iconElement.addEventListener("click", () => {
-    iconElement.addEventListener("click", async (event) => {
-      event.stopPropagation();
-      event.preventDefault();
-      console.log("trash clicked");
-      const imageId = figureElement.dataset.id;
-      try {
-        const response = await deleteImg(imageId);
-        if (!response.ok) {
-          throw new Error("Erreur lors de la suppression");
-        }
-
-        // deleteImg(imageId)
-        //   .then((response) => {
-        //     if (!response.ok) {
-        //       throw new Error("Erreur lors de la suppression");
-        //     }
-        // Suppression de l'élément dans la modal
-        figureElement.remove();
-
-        // Suppression de l'élément correspondant dans la galérie principale
-        const galleryItem = gallery.querySelector(
-          `[data-work-id="${imageId}"]`
-        );
-        if (galleryItem) {
-          galleryItem.remove();
-        }
-      } catch (error) {
-        // })
-        // .catch((error) => {
-        alert("Une erreur s'est produite lors de la suppression de l'image.");
-        console.error("erreur:", error);
+function createModalGallery(work) {
+  // works.forEach((index) => {
+  const figureElement = document.createElement("figure");
+  const imgElement = document.createElement("img");
+  const iconElement = document.createElement("icon");
+  iconElement.className = "fa-solid fa-trash-can";
+  figureElement.appendChild(iconElement);
+  imgElement.src = work.imageUrl;
+  imgElement.width = 77;
+  imgElement.height = 102;
+  figureElement.classList.add("imgModal");
+  figureElement.dataset.id = work.id;
+  figureElement.appendChild(imgElement);
+  modalGallery.appendChild(figureElement);
+  // iconElement.addEventListener("click", () => {
+  iconElement.addEventListener("click", async (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    console.log("trash clicked");
+    const imageId = figureElement.dataset.id;
+    try {
+      const response = await deleteImg(imageId);
+      if (!response.ok) {
+        throw new Error("Erreur lors de la suppression");
       }
-    });
+
+      // deleteImg(imageId)
+      //   .then((response) => {
+      //     if (!response.ok) {
+      //       throw new Error("Erreur lors de la suppression");
+      //     }
+      // Suppression de l'élément dans la modal
+      figureElement.remove();
+
+      // Suppression de l'élément correspondant dans la galérie principale
+      const galleryItem = gallery.querySelector(`[data-work-id="${imageId}"]`);
+      if (galleryItem) {
+        galleryItem.remove();
+      }
+    } catch (error) {
+      // })
+      // .catch((error) => {
+      alert("Une erreur s'est produite lors de la suppression de l'image.");
+      console.error("erreur:", error);
+    }
   });
 }
 
@@ -421,7 +417,7 @@ modalBtnPhoto.addEventListener("click", () => {
     })
     .then((work) => {
       createImg(work);
-      // createModalGallery(work);
+      createModalGallery(work);
     })
     .catch((error) => {
       console.error("erreur:", error);
