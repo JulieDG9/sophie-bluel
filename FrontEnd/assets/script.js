@@ -15,6 +15,7 @@ const arrowLeft = document.querySelector(".fa-arrow-left");
 const modalAddPhoto = document.querySelector(".modalAddPhoto");
 const modalBtn = document.querySelector(".modalBtn");
 const modalBtnPhoto = document.querySelector(".modalBtnPhoto");
+const modalBtnActive = document.querySelector("modalBtnPhoto.modalBtnActive");
 const modalTitle = document.querySelector(".modalTitle");
 const modalForm = document.getElementById("addPhotoForm");
 const btnAddPhoto = document.querySelector(".btnAddPhoto");
@@ -60,8 +61,10 @@ function initialize() {
 
   fetchWorks()
     .then((works) => {
-      createImg(works);
-      createModalGallery(works);
+      works.forEach((work) => {
+        createImg(work);
+        createModalGallery(work);
+      });
     })
     .catch((error) => console.error(error));
 
@@ -87,7 +90,9 @@ function initialize() {
   } else {
     logBtn.textContent = "logout";
     logBtn.classList.add("logOut");
-    document.querySelector(".logOut").addEventListener("click", () => {
+    document.querySelector(".logOut").addEventListener("click", (event) => {
+      event.stopPropagation();
+      event.preventDefault();
       sessionStorage.removeItem("token");
       logBtn.classList.remove("logOut");
       window.location.reload(); // AJOUT
@@ -96,25 +101,27 @@ function initialize() {
 }
 
 /* Création Galerie Photo sur page Accueil */
-function createImg(works) {
+function createImg(work) {
   // gallery.innerHTML = ""; //  AJOUT
-  works.forEach((index) => {
-    const figureElement = document.createElement("figure");
-    const imgElement = document.createElement("img");
-    const captionElement = document.createElement("figcaption");
-    imgElement.src = index.imageUrl;
-    imgElement.alt = index.title;
-    captionElement.textContent = index.title;
-    figureElement.dataset.categoryId = index.categoryId;
-    figureElement.dataset.workId = index.id;
-    figureElement.appendChild(imgElement);
-    figureElement.appendChild(captionElement);
-    gallery.appendChild(figureElement);
-  });
+  // works.forEach((index) => {
+  const figureElement = document.createElement("figure");
+  const imgElement = document.createElement("img");
+  const captionElement = document.createElement("figcaption");
+  imgElement.src = work.imageUrl;
+  imgElement.alt = work.title;
+  captionElement.textContent = work.title;
+  figureElement.dataset.categoryId = work.categoryId;
+  figureElement.dataset.workId = work.id;
+  figureElement.appendChild(imgElement);
+  figureElement.appendChild(captionElement);
+  gallery.appendChild(figureElement);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", (event) => {
+  event.stopPropagation();
+  event.preventDefault();
   initialize();
+  // modal.style.display = "none";
 });
 
 /* Création des boutons de filtres de la Galerie Photo */
@@ -124,7 +131,9 @@ function createFilterBtn(filtre) {
   btnElement.textContent = filtre.name;
   btnElement.classList.add("filters-btn");
   filters.appendChild(btnElement);
-  btnElement.addEventListener("click", () => {
+  btnElement.addEventListener("click", (event) => {
+    event.stopPropagation();
+    event.preventDefault();
     filterGallery(filtre.id);
     document.querySelectorAll(".filters-btn").forEach((unclicked) => {
       unclicked.classList.remove("btn-clicked");
@@ -145,6 +154,11 @@ function filterGallery(categoryId) {
   });
 }
 
+modalGallery.addEventListener("click", function (event) {
+  event.stopPropagation();
+  event.preventDefault();
+});
+
 /* Ouverture de la modale sur la section Galerie Photo */
 
 editBtn.addEventListener("click", (event) => {
@@ -164,7 +178,7 @@ function modalOpen() {
   modalBtnPhoto.style.display = "none";
 }
 
-crossClosed.addEventListener("click", (event) => {
+crossClosed.addEventListener("click", () => {
   // event.stopPropagation();
   // event.preventDefault();
   console.log("cross clicked");
@@ -176,7 +190,7 @@ window.addEventListener("click", (event) => {
   // event.stopPropagation();
   // event.preventDefault();
   if (modal.style.display === "block") {
-    if (event.target === modal) {
+    if (event.target === modalBg) {
       // if (!modal.contains(event.target)) {
       // } && event.target == modal))
       modal.style.display = "none";
@@ -260,6 +274,8 @@ function deleteImg(id) {
 /* section Ajout Photo de la modale   */
 
 modalBtn.addEventListener("click", (event) => {
+  // event.stopPropagation();
+  // event.preventDefault();
   modalAddPhotoView();
 });
 
@@ -281,12 +297,14 @@ arrowLeft.addEventListener("click", () => {
 
 // Affichage de l'image chargée dans le formulaire
 btnAddPhoto.addEventListener("click", (event) => {
-  // event.stopPropagation();
-  // event.preventDefault();
+  event.stopPropagation();
+  event.preventDefault();
   previewImg.style.display = "flex";
 });
 
-inputFile.addEventListener("change", () => {
+inputFile.addEventListener("change", (event) => {
+  event.stopPropagation();
+  event.preventDefault();
   const errorMessageAddPhoto = document.getElementById("errorMessageAddPhoto");
   const photo = inputFile.files[0];
   errorMessageAddPhoto.textContent = "";
@@ -321,8 +339,16 @@ inputFile.addEventListener("change", () => {
 });
 
 // Écouter les changements sur les éléments de formulaire
-titleFileForm.addEventListener("input", isFormValid);
-category.addEventListener("change", isFormValid);
+titleFileForm.addEventListener("input", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  isFormValid(event);
+});
+category.addEventListener("change", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  isFormValid(event);
+});
 
 // Fonction pour vérifier si tous les champs du formulaire sont remplis
 function isFormValid() {
@@ -340,7 +366,7 @@ function isFormValid() {
 }
 
 // Fonction pour vider le formulaire
-function clearForm(event) {
+function clearForm() {
   imgAddFile.style.display = "flex";
   previewImg.style.display = "none";
   titleFileForm.value = "";
@@ -366,7 +392,7 @@ fetchCategories().then((data) => {
 });
 
 // Fonction d'ajout de work
-modalBtnPhoto.addEventListener("click", (event) => {
+modalBtnPhoto.addEventListener("click", () => {
   // event.stopPropagation();
   // event.preventDefault();
   const formData = new FormData();
@@ -393,29 +419,33 @@ modalBtnPhoto.addEventListener("click", (event) => {
         alert("Une erreur s'est produite, veuillez réessayer");
       }
     })
+    .then((work) => {
+      createImg(work);
+      // createModalGallery(work);
+    })
     .catch((error) => {
       console.error("erreur:", error);
     });
   clearForm();
 });
 
-// let state = {};
-// // Ajout de nouveau work
-// function createWork(work) {
-//   console.log(work);
-//   const figure = document.createElement("figure");
-//   const image = document.createElement("img");
-//   const figCaption = document.createElement("figcaption");
-//   image.src = work.imageUrl;
-//   figCaption.innerText = work.title;
-//   // Ajout des éléments au DOM
-//   figure.appendChild(image);
-//   figure.appendChild(figCaption);
-//   gallery.appendChild(figure);
-//   state[work.id] = { figure };
-// }
+let state = {};
+// Ajout de nouveau work
+function createWork(work) {
+  console.log(work);
+  const figure = document.createElement("figure");
+  const image = document.createElement("img");
+  const figCaption = document.createElement("figcaption");
+  image.src = work.imageUrl;
+  figCaption.innerText = work.title;
+  // Ajout des éléments au DOM
+  figure.appendChild(image);
+  figure.appendChild(figCaption);
+  gallery.appendChild(figure);
+  state[work.id] = { figure };
+}
 
-// Fonction pour mettre à jour la galerie
+// // Fonction pour mettre à jour la galerie
 // function updateGallery(event) {
 //   event.stopPropagation();
 //   gallery.innerHTML = "";
@@ -423,9 +453,9 @@ modalBtnPhoto.addEventListener("click", (event) => {
 
 //   fetch(apiUrl + "/works")
 //     .then((response) => response.json())
-//     .then((data) => {
-//       createImg(data);
-//       createModalGallery(data);
+//     .then((work) => {
+//       createImg(work);
+//       createModalGallery(work);
 //     })
 //     .catch((error) =>
 //       console.error("Erreur lors de la mise à jour de la galerie:", error)
