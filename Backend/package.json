@@ -8,7 +8,7 @@
     "build": "echo 'Building the project... '",
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d FrontEnd"
   },
   "author": "",
   "license": "ISC",
