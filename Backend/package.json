@@ -5,10 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "build": "echo 'Building the project... '",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d FrontEnd"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -26,8 +23,6 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15",
-    "gh-pages": "^3.2.3"
-  },
-  "homepage": "https://JulieDG9.github.io/sophie-bluel"
+    "nodemon": "^2.0.15"
+  }
 }

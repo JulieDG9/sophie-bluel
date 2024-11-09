@@ -1,0 +1,13 @@
+{
+    "name": "portfolio-architecte-sophie-bluel-frontend",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "echo 'Building the project...'", 
+      "predeploy": "npm run build",
+      "deploy": "gh-pages -d ."
+    },
+    "devDependencies": {
+      "gh-pages": "^3.2.3"
+    }
+  }
+  
