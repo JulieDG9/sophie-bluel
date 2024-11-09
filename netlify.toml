@@ -1,4 +1,4 @@
 [build]
   base = "/"
-  publish = "path/to/your/build/directory"
+  publish = "public"
   command = "npm run build"
